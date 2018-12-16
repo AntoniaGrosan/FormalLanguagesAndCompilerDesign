@@ -1,2 +1,4 @@
-# FormalLanguagesAndCompilerDesign
-UBB Formal Languages and Compiler Design Course
+# Formal Languages and Compiler Design
+
+:bookmark: course: 
+https://motogna.wordpress.com/lftc/
