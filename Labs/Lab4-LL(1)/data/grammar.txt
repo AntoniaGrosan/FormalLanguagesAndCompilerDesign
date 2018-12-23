@@ -1,4 +1,9 @@
-S T C E R I
+R S T C E I
 a b c d e f x y
-S aCbIT T ε|cI C ERE E x|y R d|e I xfE
 S
+S -> a C b I T
+T -> ε | c I
+C -> E R E
+E -> x | y
+R -> d | e
+I -> x f E

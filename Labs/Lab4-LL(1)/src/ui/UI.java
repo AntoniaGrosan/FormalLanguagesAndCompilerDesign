@@ -1,11 +1,13 @@
-package parser.ui;
+package ui;
 
-import parser.controller.Program;
+import controller.Program;
+import model.Production;
 
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 public class UI {
-
     private Program program;
 
     public UI(Program program) {
@@ -19,7 +21,7 @@ public class UI {
         System.out.println("2 - Parser");
 
         Scanner inScanner = new Scanner(System.in);
-        Integer option = Integer.parseInt(inScanner.next().trim());
+        int option = Integer.parseInt(inScanner.next().trim());
         switch (option) {
             case 0:
                 System.exit(0);
@@ -41,6 +43,8 @@ public class UI {
         System.out.println("2 - Get FOLLOW set");
         System.out.println("3 - Create parse table");
         System.out.println("4 - Parse sequence");
+        System.out.println("5 - Scan source code");
+        System.out.println("6 - Parse pif");
 
         Scanner inScanner = new Scanner(System.in);
         int option = Integer.parseInt(inScanner.next().trim());
@@ -49,28 +53,47 @@ public class UI {
                 start();
                 break;
             case 1:
-                System.out.println(program.getFirstSet());
+                program.getFirstSet().forEach(this::displaySet);
                 System.out.println();
                 fileMenuParser();
                 break;
             case 2:
-                System.out.println(program.getFollowSet());
+                program.getFollowSet().forEach(this::displaySet);
                 System.out.println();
                 fileMenuParser();
                 break;
-            case 3:
-                System.out.println(program.createParseTable());
-                System.out.println();
-                fileMenuParser();
-                break;
-            case 4:
-                program.parse(promptForSequence());
-                System.out.println();
-                fileMenuParser();
-                break;
+//            case 3:
+//                System.out.println(program.createParseTable());
+//                System.out.println();
+//                fileMenuParser();
+//                break;
+//            case 4:
+//                program.parse(promptForSequence());
+//                System.out.println();
+//                fileMenuParser();
+//                break;
+//            case 5:
+//                program.scanSourceCode();
+//                System.out.println();
+//                fileMenuParser();
+//                break;
+//            case 6:
+//                program.parsePIF();
+//                System.out.println();
+//                fileMenuParser();
+//                break;
             default:
                 start();
         }
+    }
+
+    private void displaySet(String key, Set<String> value) {
+        StringBuilder sb = new StringBuilder(key + " = { ");
+        for (String symbol : value)
+            sb.append(symbol).append(", ");
+        sb.append("}");
+        sb.replace(sb.length() - 3, sb.length() - 2, "");
+        System.out.println(sb);
     }
 
     private void fileMenuGrammar() {
@@ -81,7 +104,6 @@ public class UI {
         System.out.println("3 - Productions");
         System.out.println("4 - Productions of a non-terminal");
         System.out.println("5 - Starting Symbol");
-        System.out.println("6 - Is regular?");
 
         Scanner inScanner = new Scanner(System.in);
         int option = Integer.parseInt(inScanner.next().trim());
@@ -100,7 +122,10 @@ public class UI {
                 fileMenuGrammar();
                 break;
             case 3:
-                System.out.println(program.getProductions());
+                System.out.println("P: {");
+                for (Production production: program.getProductions())
+                    System.out.println("    " + production);
+                System.out.println("}");
                 System.out.println();
                 fileMenuGrammar();
                 break;
@@ -111,11 +136,6 @@ public class UI {
                 break;
             case 5:
                 System.out.println(program.getStartingSymbol());
-                System.out.println();
-                fileMenuGrammar();
-                break;
-            case 6:
-                System.out.println(program.isGrammarRegular());
                 System.out.println();
                 fileMenuGrammar();
                 break;
@@ -134,4 +154,3 @@ public class UI {
         return inScanner.next().trim();
     }
 }
-
