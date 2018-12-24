@@ -46,13 +46,11 @@ public class Parser {
 
     private void generateFollowSet() {
         for (String nonTerminal : grammar.getNonTerminals()) {
-            System.out.println("------------" + nonTerminal);
             followSet.put(nonTerminal, this.followOf(nonTerminal, nonTerminal));
         }
     }
 
     private Set<String> followOf(String nonTerminal, String initialNonTerminal) {
-        System.out.println(nonTerminal);
         if (followSet.containsKey(nonTerminal))
             return followSet.get(nonTerminal);
         Set<String> temp = new HashSet<>();
@@ -63,9 +61,12 @@ public class Parser {
 
         for (Production production : grammar.getProductionsContainingNonterminal(nonTerminal)) {
             String productionStart = production.getStart();
-            for (List<String> rule : production.getRules())
-                if (rule.contains(nonTerminal) && !rules.contains(rule)) {
-                    rules.push(rule);
+            for (List<String> rule : production.getRules()){
+                List<String> ruleConflict = new ArrayList<>();
+                ruleConflict.add(nonTerminal);
+                ruleConflict.addAll(rule);
+                if (rule.contains(nonTerminal) && !rules.contains(ruleConflict)) {
+                    rules.push(ruleConflict);
                     int indexNonTerminal = rule.indexOf(nonTerminal);
                     temp.addAll(followOperation(nonTerminal, temp, terminals, productionStart, rule, indexNonTerminal, initialNonTerminal));
 
@@ -76,6 +77,7 @@ public class Parser {
 
                     rules.pop();
                 }
+            }
         }
 
         return temp;
@@ -86,9 +88,7 @@ public class Parser {
             if (productionStart.equals(nonTerminal))
                 return temp;
             if (!initialNonTerminal.equals(productionStart)){
-                rules.push(rule);
                 temp.addAll(followOf(productionStart, initialNonTerminal));
-                rules.pop();
             }
         }
         else
@@ -98,12 +98,12 @@ public class Parser {
                 temp.add(nextSymbol);
             else{
                 if (!initialNonTerminal.equals(nextSymbol)) {
-                    rules.push(rule);
-                    temp.addAll(followOf(nextSymbol, initialNonTerminal));
-                    Set<String> fists = new HashSet<>(firstOf(nextSymbol));
-                    fists.remove("ε");
+                    Set<String> fists = new HashSet<>(firstSet.get(nextSymbol));
+                    if (fists.contains("ε")) {
+                        temp.addAll(followOf(nextSymbol, initialNonTerminal));
+                        fists.remove("ε");
+                    }
                     temp.addAll(fists);
-                    rules.pop();
                 }
             }
         }
