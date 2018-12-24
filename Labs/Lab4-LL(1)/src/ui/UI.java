@@ -62,11 +62,11 @@ public class UI {
                 System.out.println();
                 fileMenuParser();
                 break;
-//            case 3:
-//                System.out.println(program.createParseTable());
-//                System.out.println();
-//                fileMenuParser();
-//                break;
+            case 3:
+                System.out.println(program.getParseTable());
+                System.out.println();
+                fileMenuParser();
+                break;
 //            case 4:
 //                program.parse(promptForSequence());
 //                System.out.println();

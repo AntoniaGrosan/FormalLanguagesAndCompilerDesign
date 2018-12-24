@@ -1,5 +1,6 @@
 package controller;
 
+import model.ParseTable;
 import model.Parser;
 import model.Production;
 
@@ -40,5 +41,9 @@ public class Program {
 
     public Map<String, Set<String>> getFollowSet() {
         return parser.getFollowSet();
+    }
+
+    public ParseTable getParseTable() {
+        return parser.getParseTable();
     }
 }
