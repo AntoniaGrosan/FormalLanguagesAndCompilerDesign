@@ -3,9 +3,7 @@ package ui;
 import controller.Program;
 import model.Production;
 
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class UI {
     private Program program;
@@ -43,7 +41,7 @@ public class UI {
         System.out.println("2 - Get FOLLOW set");
         System.out.println("3 - Create parse table");
         System.out.println("4 - Parse sequence");
-        System.out.println("5 - Scan source code");
+        System.out.println("5 - Parse source code");
         System.out.println("6 - Parse pif");
 
         Scanner inScanner = new Scanner(System.in);
@@ -67,21 +65,21 @@ public class UI {
                 System.out.println();
                 fileMenuParser();
                 break;
-//            case 4:
-//                program.parse(promptForSequence());
-//                System.out.println();
-//                fileMenuParser();
-//                break;
-//            case 5:
-//                program.scanSourceCode();
-//                System.out.println();
-//                fileMenuParser();
-//                break;
-//            case 6:
-//                program.parsePIF();
-//                System.out.println();
-//                fileMenuParser();
-//                break;
+            case 4:
+                program.parse(promptForSequence());
+                System.out.println();
+                fileMenuParser();
+                break;
+            case 5:
+                program.scanSourceCode();
+                System.out.println();
+                fileMenuParser();
+                break;
+            case 6:
+                program.parsePIF();
+                System.out.println();
+                fileMenuParser();
+                break;
             default:
                 start();
         }
@@ -144,9 +142,9 @@ public class UI {
         }
     }
 
-    private String promptForSequence() {
+    private List<String> promptForSequence() {
         Scanner inScanner = new Scanner(System.in);
-        return inScanner.next().trim();
+        return Arrays.asList(inScanner.nextLine().replace("\n", "").split(" "));
     }
 
     private String promptForNonTerminal() {
